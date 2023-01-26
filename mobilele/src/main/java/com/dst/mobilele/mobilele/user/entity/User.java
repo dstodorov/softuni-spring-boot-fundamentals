@@ -96,6 +96,11 @@ public class User extends BaseEntity {
         this.created = created;
     }
 
+    public User setRole(UserRole role) {
+        this.role = role;
+        return this;
+    }
+
     public LocalDateTime getModified() {
         return modified;
     }

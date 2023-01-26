@@ -3,6 +3,7 @@ package com.dst.mobilele.mobilele.core.controllers;
 import com.dst.mobilele.mobilele.user.dto.UserRegisterDTO;
 import com.dst.mobilele.mobilele.user.dto.UserRoleViewDTO;
 import com.dst.mobilele.mobilele.user.services.UserRoleService;
+import com.dst.mobilele.mobilele.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,13 @@ import java.util.List;
 public class UserController extends BaseController {
 
     private final UserRoleService roleService;
+    private final UserService userService;
 
 
     @Autowired
-    public UserController(UserRoleService roleService) {
+    public UserController(UserRoleService roleService, UserService userService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
     @GetMapping("/register")
@@ -39,7 +42,14 @@ public class UserController extends BaseController {
 
     @PostMapping("/register")
     public ModelAndView postRegister(@ModelAttribute UserRegisterDTO userRegister) {
+        this.userService.saveUser(userRegister);
 
-        return super.redirect("auth-login");
+        return super.redirect("login");
+    }
+
+    @GetMapping("/login")
+
+    public ModelAndView getLogin(ModelAndView mav) {
+        return super.view("auth-login", mav);
     }
 }
